@@ -14,5 +14,12 @@ BOOKS = [
 async def read_all_books():
     return {'data': BOOKS}
 
+
+@app.get("/books/{book_id}")
+async def read_book(book_id: int):
+    book = next((book for book in BOOKS if book['id'] == book_id), None)
+    return {'data': book}
+
+
 # uvicorn books:app --reload
 # swagger: localhost:8000/docs
