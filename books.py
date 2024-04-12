@@ -13,24 +13,24 @@ BOOKS = [
 
 
 @app.get("/books")
-def read_all_books():
+async def read_all_books():
     return {'data': BOOKS}
 
 
 @app.get("/books/{book_id}")
-def read_book(book_id: int):
+async def read_book(book_id: int):
     book = next((book for book in BOOKS if book['id'] == book_id), None)
     return {'data': book}
 
 
 @app.get("/books/")
-def read_category_by_query(category: str):
+async def read_category_by_query(category: str):
     books = [book for book in BOOKS if book['category'].casefold() == category.casefold()]
     return {'data': books}
 
 
 @app.get("/books/{book_id}/")
-def read_book_by_query(book_id: int, category: str):
+async def read_book_by_query(book_id: int, category: str):
     book = next((book for book in BOOKS if book['id'] == book_id and
                  book['category'].casefold() == category.casefold()), None)
 
@@ -38,9 +38,33 @@ def read_book_by_query(book_id: int, category: str):
 
 
 @app.post("/books")
-def create_book(book: dict):
+async def create_book(book: dict):
     BOOKS.append(book)
     return {'data': BOOKS}
+
+
+@app.put("/books/{book_id}")
+async def update_book(book_id: int, book: dict):
+    for i, b in enumerate(BOOKS):
+        if b['id'] == book_id:
+            BOOKS[i] = book
+            return {'data': BOOKS}
+
+
+@app.patch("/books/{book_id}")
+async def update_book(book_id: int, book: dict):
+    for i, b in enumerate(BOOKS):
+        if b['id'] == book_id:
+            BOOKS[i].update(book)
+            return {'data': BOOKS}
+
+
+@app.delete("/books/{book_id}")
+async def delete_book(book_id: int):
+    for i, b in enumerate(BOOKS):
+        if b['id'] == book_id:
+            del BOOKS[i]
+            return {'data': BOOKS}
 
 
 if __name__ == "__main__":
@@ -48,9 +72,3 @@ if __name__ == "__main__":
 
 # uvicorn books:app --reload
 # swagger: localhost:5000/docs
-
-# curl -X GET localhost:5000/books
-# curl -X GET localhost:5000/books/1
-# curl -X GET localhost:5000/books/?category=Fiction
-# curl -X GET localhost:5000/books/1/?category=Fiction
-# curl -X POST localhost:5000/books -H "Content-Type: application/json" -d '{"id": 5, "title": "The Lean Startup", "author": "Eric Ries", "category": "Non-Fiction"}'
