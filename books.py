@@ -37,8 +37,20 @@ def read_book_by_query(book_id: int, category: str):
     return {'data': book}
 
 
+@app.post("/books")
+def create_book(book: dict):
+    BOOKS.append(book)
+    return {'data': BOOKS}
+
+
 if __name__ == "__main__":
     uvicorn.run("books:app", host="127.0.0.1", port=5000, reload=True)
 
 # uvicorn books:app --reload
 # swagger: localhost:5000/docs
+
+# curl -X GET localhost:5000/books
+# curl -X GET localhost:5000/books/1
+# curl -X GET localhost:5000/books/?category=Fiction
+# curl -X GET localhost:5000/books/1/?category=Fiction
+# curl -X POST localhost:5000/books -H "Content-Type: application/json" -d '{"id": 5, "title": "The Lean Startup", "author": "Eric Ries", "category": "Non-Fiction"}'
