@@ -5,12 +5,12 @@
 
 > Curl commands
 ```
-curl -X GET localhost:5000/books
-curl -X GET localhost:5000/books/1
-curl -X GET localhost:5000/books/?category=Fiction
-curl -X GET localhost:5000/books/1/?category=Fiction
-curl -X POST localhost:5000/books -H "Content-Type: application/json" -d '{"id": 5, "title": "The Lean Startup TYPO", "author": "Eric Ries", "category": "Non-Fiction"}'
-curl -X PUT localhost:5000/books/5 -H "Content-Type: application/json" -d '{"id": 5, "title": "The Lean Startup", "author": "Eric Ries", "category": "Non-Fiction"}'
-curl -X PATCH localhost:5000/books/5 -H "Content-Type: application/json" -d '{"title": "The Lean Startup"}'
-curl -X DELETE localhost:5000/books/5
+curl -X 'GET' localhost:5000/books
+curl -X 'GET' localhost:5000/books/1
+curl -X 'GET' localhost:5000/books/?author=Dan%20Brown
+curl -X 'GET' localhost:5000/books/1/?author=Dan%20Brown
+curl -X 'POST' localhost:5000/books -H 'Content-Type: application/json' -d '{"book_id": 8, "title": "The Great Gatsby", "author": "F. Scott Fitzgerald", "description": "", "rating": 4.5, "year": 1925}'
+curl -X 'PUT' localhost:5000/books/8 -H 'Content-Type: application/json' -d '{"book_id": 8, "title": "The Great Gatsby", "author": "F. Scott Fitzgerald", "description": "", "rating": 4.5, "year": 1925}'
+curl -X 'PATCH' localhost:5000/books/8 -H 'Content-Type: application/json' -d '{"book_id": 8, "title": "The Great Gatsby", "author": "F. Scott Fitzgerald", "description": "", "rating": 4.5, "year": 1925}'
+curl -X 'DELETE' localhost:5000/books/8
 ``` 
