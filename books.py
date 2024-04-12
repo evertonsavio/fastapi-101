@@ -29,6 +29,14 @@ def read_category_by_query(category: str):
     return {'data': books}
 
 
+@app.get("/books/{book_id}/")
+def read_book_by_query(book_id: int, category: str):
+    book = next((book for book in BOOKS if book['id'] == book_id and
+                 book['category'].casefold() == category.casefold()), None)
+
+    return {'data': book}
+
+
 if __name__ == "__main__":
     uvicorn.run("books:app", host="127.0.0.1", port=5000, reload=True)
 
